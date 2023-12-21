@@ -1,0 +1,228 @@
+﻿<Window
+    x:Class="Practic.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Practic"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Построение графика"
+    Width="700"
+    Height="550"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA" />
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
+        <ControlTemplate x:Key="TextBoxTemplate1" TargetType="{x:Type TextBoxBase}">
+            <Border
+                x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="10"
+                SnapsToDevicePixels="True">
+                <ScrollViewer
+                    x:Name="PART_ContentHost"
+                    Focusable="false"
+                    HorizontalScrollBarVisibility="Hidden"
+                    VerticalScrollBarVisibility="Hidden" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.MouseOver.Border}" />
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="true">
+                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD" />
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1" />
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5" />
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383" />
+        <ControlTemplate x:Key="ButtonTemplate1" TargetType="{x:Type ButtonBase}">
+            <Border
+                x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="10"
+                SnapsToDevicePixels="true">
+                <ContentPresenter
+                    x:Name="contentPresenter"
+                    Margin="{TemplateBinding Padding}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    Focusable="False"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="true">
+                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+                    <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
+                    <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170" />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Menu
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Height="25"
+            VerticalAlignment="Top"
+            Background="#e7dec8">
+            <MenuItem
+                Name="mnI1"
+                Margin="10,2,0,2"
+                Click="mnI1_Click"
+                Header="Справка" />
+            <MenuItem
+                Name="mnI2"
+                Margin="10,2,0,2"
+                Click="mnI2_Click"
+                Header="Разработчик" />
+            <MenuItem
+                Name="mnI3"
+                Margin="10,2,0,2"
+                Click="mnI3_Click"
+                Header="Выход" />
+        </Menu>
+
+        <Grid
+            Grid.Row="1"
+            Grid.RowSpan="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="25,25,25,25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="449*" />
+                <RowDefinition Height="5*" />
+            </Grid.RowDefinitions>
+
+            <Canvas
+                x:Name="canvas"
+                Width="450"
+                Height="420"
+                Margin="10,10,10,5"
+                Background="White" />
+            <Line
+                Grid.RowSpan="2"
+                Margin="10,10,0,0"
+                Stroke="Black"
+                StrokeThickness="1.1"
+                X1="0"
+                X2="0"
+                Y1="{Binding ActualHeight, ElementName=canvas}"
+                Y2="0" />
+            <Line
+                Grid.RowSpan="2"
+                Margin="10,10,0,0"
+                Stroke="Black"
+                StrokeThickness="1.1"
+                X1="0"
+                X2="{Binding ActualWidth, ElementName=canvas}"
+                Y1="{Binding ActualHeight, ElementName=canvas}"
+                Y2="{Binding ActualHeight, ElementName=canvas}" />
+            <TextBlock
+                Grid.RowSpan="2"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Text="X" />
+            <TextBlock
+                Width="7"
+                Height="15"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Text="Y" />
+        </Grid>
+
+        <StackPanel
+            x:Name="stacPanel"
+            Grid.Row="1"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Margin="10"
+            VerticalAlignment="Top">
+            <TextBlock
+                Margin="0,0,0,10"
+                FontSize="16"
+                Text="Введите значения деревьев (см) за каждый месяц через запятую:"
+                TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Text="Значения:" />
+                <TextBox
+                    x:Name="Month3"
+                    Width="50"
+                    Height="25"
+                    Margin="5,0,5,0" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <Button
+            x:Name="btnCalculateInput"
+            Grid.Row="4"
+            Margin="10,5,10,5"
+            Background="#B8B0B0"
+            BorderBrush="#B8B0B0"
+            Click="btnInput"
+            Content="Рассчитать вручную"
+            FontSize="15"
+            Foreground="White"
+            Template="{DynamicResource ButtonTemplate1}" />
+
+        <Button
+            x:Name="btnCalculate"
+            Grid.Row="5"
+            Margin="10,5,10,5"
+            Background="#B8B0B0"
+            BorderBrush="#B8B0B0"
+            Click="btnCalculate_Click"
+            Content="Рассчитать случайно"
+            FontSize="15"
+            Foreground="White"
+            Template="{DynamicResource ButtonTemplate1}" />
+    </Grid>
+</Window>
